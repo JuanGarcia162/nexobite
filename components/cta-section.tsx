@@ -1,0 +1,57 @@
+"use client";
+
+import { MessageCircle, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AnimatedSection } from "@/components/animated-section";
+import { ParticleField } from "@/components/particle-field";
+
+export function CtaSection() {
+  return (
+    <section className="relative border-t border-border/50 bg-secondary/30 py-24 sm:py-32 overflow-hidden">
+      <ParticleField variant="primary" density="medium" speed="fast" />
+      <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+        <AnimatedSection>
+          <div className="relative mb-6 inline-flex h-16 w-16 animate-float items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-accent/20">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-accent opacity-20 blur-xl" />
+            <MessageCircle className="relative z-10 h-8 w-8 text-accent" />
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={100}>
+          <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">
+            ¿Listo para{" "}
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              vender más
+            </span>
+            ?
+          </h2>
+        </AnimatedSection>
+
+        <AnimatedSection delay={200}>
+          <p className="mx-auto mb-10 max-w-2xl text-pretty text-lg text-muted-foreground">
+            Agenda una consulta gratuita por WhatsApp. Te mostramos cómo
+            funciona todo en acción. Sin compromiso, sin letra pequeña.
+          </p>
+        </AnimatedSection>
+
+        <AnimatedSection delay={300}>
+          <Button
+            size="lg"
+            asChild
+            className="group bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-accent/50 transition-all duration-300 hover:scale-105 border-0"
+          >
+            <a
+              href="https://wa.me/+573116839099"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <MessageCircle className="mr-2 h-5 w-5 text-white" />
+              Chatea por WhatsApp
+              <ArrowRight className="ml-2 h-4 w-4 text-white transition-transform group-hover:translate-x-1" />
+            </a>
+          </Button>
+        </AnimatedSection>
+      </div>
+    </section>
+  );
+}
