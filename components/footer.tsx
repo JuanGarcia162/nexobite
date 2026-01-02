@@ -11,37 +11,19 @@ export function Footer() {
               <span className="text-sm font-bold text-white">N</span>
             </div>
             <span className="text-lg font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              nexobite
+              NEXOBITE
             </span>
           </div>
 
           <div className="flex items-center gap-4">
             <a
-              href="https://instagram.com"
+              href="https://instagram.com/nexobite"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground transition-all hover:bg-gradient-to-br hover:from-primary hover:to-accent hover:text-white hover:scale-110"
               aria-label="Instagram"
             >
               <Instagram className="h-5 w-5" />
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground transition-all hover:bg-gradient-to-br hover:from-primary hover:to-accent hover:text-white hover:scale-110"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground transition-all hover:bg-gradient-to-br hover:from-primary hover:to-accent hover:text-white hover:scale-110"
-              aria-label="Twitter"
-            >
-              <Twitter className="h-5 w-5" />
             </a>
             <a
               href="https://wa.me/+573116839099"
@@ -57,7 +39,7 @@ export function Footer() {
 
         <div className="mt-8 border-t border-border/50 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} nexobite DIGITAL. Todos los derechos
+            © {new Date().getFullYear()} NexoBite. Todos los derechos
             reservados.
           </p>
         </div>

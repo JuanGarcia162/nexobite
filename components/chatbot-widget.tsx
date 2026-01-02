@@ -28,7 +28,7 @@ export function ChatbotWidget() {
           </div>
           <div className="flex-1">
             <div className="font-semibold text-foreground">
-              Asistente nexobite
+              Asistente NexoBite
             </div>
             <div className="text-xs text-muted-foreground">
               En línea - Responde instantáneamente
@@ -47,7 +47,7 @@ export function ChatbotWidget() {
         <div className="flex h-64 flex-col gap-3 overflow-y-auto p-4">
           <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-secondary px-4 py-2.5">
             <p className="text-sm text-foreground">
-              ¡Hola! Soy el asistente de IA de nexobite. ¿En qué puedo ayudarte
+              ¡Hola! Soy el asistente de IA de NexoBite. ¿En qué puedo ayudarte
               hoy?
             </p>
           </div>

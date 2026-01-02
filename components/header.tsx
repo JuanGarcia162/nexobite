@@ -64,7 +64,7 @@ export function Header() {
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary to-accent opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-50" />
             </div>
             <span className="text-lg font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              nexobite
+              NEXOBITE
             </span>
           </Link>
 
