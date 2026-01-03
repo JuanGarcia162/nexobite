@@ -1,14 +1,21 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Instagram, Linkedin, Twitter, MessageCircle } from "lucide-react";
+import { Container } from "@/components/container";
 
 export function Footer() {
   return (
     <footer className="border-t border-border/50 bg-background py-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Container>
         <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
           <div className="flex items-center gap-2">
-            <div className="relative flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-br from-primary to-accent">
-              <span className="text-sm font-bold text-white">N</span>
+            <div className="relative flex h-8 w-8 items-center justify-center rounded-md overflow-hidden">
+              <Image
+                src="/nexobite-logo.png"
+                alt="Nexobite Logo"
+                width={32}
+                height={32}
+              />
             </div>
             <span className="text-lg font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               NEXOBITE
@@ -43,7 +50,7 @@ export function Footer() {
             reservados.
           </p>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

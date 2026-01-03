@@ -12,6 +12,8 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { AnimatedSection } from "@/components/animated-section";
+import { Container } from "@/components/container";
+import { ParticleField } from "@/components/particle-field";
 
 const categories = [
   {
@@ -208,11 +210,34 @@ export function MiniPlansSection() {
   }, [selected]);
 
   return (
-    <section id="mini-plans" className="py-14">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section
+      id="mini-plans"
+      className="relative py-24 border-b border-border/50 overflow-hidden"
+    >
+      <ParticleField variant="mixed" density="medium" speed="medium" />
+      <Container className="relative z-10">
+        {/* Section Header */}
+        <AnimatedSection>
+          <div className="mb-4 text-center text-sm font-medium uppercase tracking-wider bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            Planes por Servicio
+          </div>
+          <h2 className="mb-4 text-center text-3xl font-bold text-foreground sm:text-4xl">
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Personaliza
+            </span>{" "}
+            tu estrategia digital
+          </h2>
+          <p className="mx-auto mb-12 max-w-2xl text-center text-pretty text-lg text-muted-foreground">
+            Elige el servicio que necesitas y el plan que mejor se ajuste a tu
+            negocio. Todos incluyen soporte y capacitación.
+          </p>
+        </AnimatedSection>
+
         {/* Category buttons */}
         <div className="mb-8">
-          <div className="flex gap-3 overflow-auto scrollbar-hide py-2">
+          {" "}
+          <div className="flex gap-3 overflow-auto scrollbar-hide py-2 justify-center">
+            {" "}
             {categories.map((cat) => (
               <button
                 key={cat.id}
@@ -301,13 +326,9 @@ export function MiniPlansSection() {
                               </CardContent>
                               <CardFooter>
                                 <Button
-                                  className={`w-full transition-all duration-300 ${
-                                    p.highlighted
-                                      ? "bg-gradient-to-r from-primary to-accent"
-                                      : "bg-primary"
-                                  } text-white hover:bg-accent hover:shadow-lg hover:shadow-accent/50 border-0`}
+                                  className="w-full"
                                   variant={
-                                    p.highlighted ? "default" : "outline"
+                                    p.highlighted ? "gradient" : "default"
                                   }
                                   asChild
                                 >
@@ -398,12 +419,8 @@ export function MiniPlansSection() {
                       </CardContent>
                       <CardFooter>
                         <Button
-                          className={`w-full transition-all duration-300 ${
-                            p.highlighted
-                              ? "bg-gradient-to-r from-primary to-accent"
-                              : "bg-primary"
-                          } text-white hover:bg-accent hover:shadow-lg hover:shadow-accent/50 border-0`}
-                          variant={p.highlighted ? "default" : "outline"}
+                          className="w-full"
+                          variant={p.highlighted ? "gradient" : "default"}
                           asChild
                         >
                           <a
@@ -421,7 +438,7 @@ export function MiniPlansSection() {
               </div>
             </AnimatedSection>
           ))}
-      </div>
+      </Container>
     </section>
   );
 }

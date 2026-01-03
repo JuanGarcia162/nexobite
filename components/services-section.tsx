@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { AnimatedSection } from "@/components/animated-section";
 import { ParticleField } from "@/components/particle-field";
+import { Container } from "@/components/container";
 
 const services = [
   {
@@ -58,9 +59,12 @@ const services = [
 
 export function ServicesSection() {
   return (
-    <section id="services" className="relative py-24 sm:py-32 overflow-hidden">
+    <section
+      id="services"
+      className="relative py-24 sm:py-32 overflow-hidden border-b border-border/50"
+    >
       <ParticleField variant="accent" density="medium" speed="slow" />
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Container className="relative z-10">
         <AnimatedSection>
           <div className="mb-4 text-sm font-medium uppercase tracking-wider bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             Nuestros Servicios
@@ -140,7 +144,7 @@ export function ServicesSection() {
             </div>
           </div>
         </AnimatedSection>
-      </div>
+      </Container>
     </section>
   );
 }

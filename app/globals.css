@@ -7,11 +7,11 @@
 /* Paleta: Azul Profundo (#1a365d) + Naranja Energético (#ed8936) */
 /* MODO OSCURO PREDETERMINADO */
 :root {
-  /* Colores de marca */
-  --nexobite-blue: #1a365d; /* Azul Profundo */
-  --nexobite-orange: #ed8936; /* Naranja Energético */
-  --nexobite-gray-dark: #2d3748; /* Gris Oscuro */
-  --nexobite-white: #ffffff; /* Blanco */
+  /* Colores de marca en formato RGB */
+  --nexobite-blue: 26 54 93; /* Azul Profundo #1a365d */
+  --nexobite-orange: 237 137 54; /* Naranja Energético #ed8936 */
+  --nexobite-gray-dark: 45 55 72; /* Gris Oscuro #2d3748 */
+  --nexobite-white: 255 255 255; /* Blanco #ffffff */
 
   /* Sistema de colores - MODO OSCURO */
   --background: #0f172a; /* Azul muy oscuro */
@@ -124,10 +124,10 @@
   @keyframes pulse-glow {
     0%,
     100% {
-      box-shadow: 0 0 0 0 rgba(237, 137, 54, 0.4); /* Naranja nexobite */
+      box-shadow: 0 0 0 0 rgba(var(--nexobite-orange), 0.4);
     }
     50% {
-      box-shadow: 0 0 20px 10px rgba(237, 137, 54, 0.2);
+      box-shadow: 0 0 20px 10px rgba(var(--nexobite-orange), 0.2);
     }
   }
 
@@ -149,11 +149,11 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 100px; /* Espacio para el navbar flotante */
+    scroll-padding-top: 120px; /* Espacio suficiente para el navbar flotante */
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
 
   /* Tipografía: usar Poppins para títulos */
@@ -165,6 +165,17 @@
   h6 {
     font-family: var(--font-display);
     font-weight: 700;
+  }
+
+  /* Estilos mejorados para secciones */
+  section {
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* Efecto visual sutil en bordes de sección */
+  section[id] {
+    scroll-margin-top: 100px;
   }
 }
 
@@ -181,7 +192,7 @@
     @apply transition-all duration-300;
   }
   .hover-glow:hover {
-    box-shadow: 0 0 20px rgba(237, 137, 54, 0.4); /* Naranja nexobite */
+    box-shadow: 0 0 20px rgba(var(--nexobite-orange), 0.4);
   }
 
   .link-underline {
@@ -207,5 +218,14 @@
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* Animaciones personalizadas */
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
   }
 }

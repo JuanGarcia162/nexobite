@@ -4,12 +4,13 @@ import { MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AnimatedSection } from "@/components/animated-section";
 import { ParticleField } from "@/components/particle-field";
+import { Container } from "@/components/container";
 
 export function CtaSection() {
   return (
-    <section className="relative border-t border-border/50 bg-secondary/30 py-24 sm:py-32 overflow-hidden">
+    <section className="relative border-b border-border/50 bg-secondary/30 py-24 sm:py-32 overflow-hidden">
       <ParticleField variant="primary" density="medium" speed="fast" />
-      <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+      <Container className="relative z-10 text-center" size="md">
         <AnimatedSection>
           <div className="relative mb-6 inline-flex h-16 w-16 animate-float items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-accent/20">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-accent opacity-20 blur-xl" />
@@ -35,11 +36,7 @@ export function CtaSection() {
         </AnimatedSection>
 
         <AnimatedSection delay={300}>
-          <Button
-            size="lg"
-            asChild
-            className="group bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-accent/50 transition-all duration-300 hover:scale-105 border-0"
-          >
+          <Button size="lg" variant="gradient" asChild className="group">
             <a
               href="https://wa.me/+573116839099"
               target="_blank"
@@ -51,7 +48,7 @@ export function CtaSection() {
             </a>
           </Button>
         </AnimatedSection>
-      </div>
+      </Container>
     </section>
   );
 }

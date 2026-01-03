@@ -9,6 +9,9 @@ interface Particle {
   vy: number;
   size: number;
   opacity: number;
+  baseOpacity: number;
+  color: string;
+  pulsePhase: number;
 }
 
 interface ParticleFieldProps {
@@ -23,6 +26,9 @@ export function ParticleField({
   speed = "medium",
 }: ParticleFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const scrollVelocityRef = useRef(0);
+  const lastScrollRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -33,30 +39,19 @@ export function ParticleField({
 
     let animationId: number;
     let particles: Particle[] = [];
+    let time = 0;
 
     // Configuración de colores según variante
     const getColors = () => {
       switch (variant) {
         case "primary":
-          return {
-            particle: "59, 130, 246", // Azul brillante
-            line: "59, 130, 246",
-          };
+          return ["59, 130, 246", "99, 102, 241"]; // Azul brillante + índigo
         case "accent":
-          return {
-            particle: "251, 146, 60", // Naranja brillante
-            line: "251, 146, 60",
-          };
+          return ["251, 146, 60", "249, 115, 22"]; // Naranja brillante + naranja oscuro
         case "subtle":
-          return {
-            particle: "148, 163, 184", // Gris
-            line: "148, 163, 184",
-          };
+          return ["148, 163, 184", "100, 116, 139"]; // Gris + gris oscuro
         case "mixed":
-          return {
-            particle: Math.random() > 0.5 ? "59, 130, 246" : "251, 146, 60",
-            line: "148, 163, 184",
-          };
+          return ["59, 130, 246", "251, 146, 60", "148, 163, 184"];
       }
     };
 
@@ -64,11 +59,11 @@ export function ParticleField({
     const getDensity = () => {
       switch (density) {
         case "low":
-          return 30;
+          return 40;
         case "medium":
-          return 50;
+          return 60;
         case "high":
-          return 80;
+          return 100;
       }
     };
 
@@ -76,11 +71,11 @@ export function ParticleField({
     const getSpeed = () => {
       switch (speed) {
         case "slow":
-          return 0.2;
-        case "medium":
           return 0.3;
-        case "fast":
+        case "medium":
           return 0.5;
+        case "fast":
+          return 0.8;
       }
     };
 
@@ -94,19 +89,25 @@ export function ParticleField({
       const maxParticles = getDensity();
       const particleCount = Math.min(
         maxParticles,
-        Math.floor((canvas.offsetWidth * canvas.offsetHeight) / 15000)
+        Math.floor((canvas.offsetWidth * canvas.offsetHeight) / 12000)
       );
       particles = [];
       const speedMultiplier = getSpeed();
+      const colors = getColors();
 
       for (let i = 0; i < particleCount; i++) {
+        const baseOpacity = Math.random() * 0.3 + 0.15;
+        const color = colors[Math.floor(Math.random() * colors.length)];
         particles.push({
           x: Math.random() * canvas.offsetWidth,
           y: Math.random() * canvas.offsetHeight,
           vx: (Math.random() - 0.5) * speedMultiplier,
           vy: (Math.random() - 0.5) * speedMultiplier,
-          size: Math.random() * 2 + 1,
-          opacity: Math.random() * 0.4 + 0.2,
+          size: Math.random() * 2.5 + 0.5,
+          opacity: baseOpacity,
+          baseOpacity,
+          color,
+          pulsePhase: Math.random() * Math.PI * 2,
         });
       }
     };
@@ -114,57 +115,159 @@ export function ParticleField({
     const drawParticles = () => {
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 
-      // Draw particles
-      particles.forEach((particle, i) => {
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        const colors =
-          i % 2 === 0 || variant !== "mixed"
-            ? getColors()
-            : { particle: "251, 146, 60", line: "" };
-        ctx.fillStyle = `rgba(${colors.particle}, ${particle.opacity})`;
-        ctx.fill();
+      // Actualizar opacidad basada en pulso
+      particles.forEach((particle) => {
+        const pulse =
+          Math.sin(time * 0.002 + particle.pulsePhase) * 0.15 + 0.85;
+        particle.opacity = particle.baseOpacity * pulse;
       });
 
-      // Draw connecting lines
+      // Draw connecting lines primero (detrás de las partículas)
+      const connectionDistance = 150;
+      const mouseInfluence = 200;
+
       particles.forEach((particle, i) => {
+        // Calcular distancia al mouse
+        const dxMouse = mouseRef.current.x - particle.x;
+        const dyMouse = mouseRef.current.y - particle.y;
+        const distanceToMouse = Math.sqrt(
+          dxMouse * dxMouse + dyMouse * dyMouse
+        );
+
         particles.slice(i + 1).forEach((other) => {
           const dx = particle.x - other.x;
           const dy = particle.y - other.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 120) {
+          if (distance < connectionDistance) {
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(other.x, other.y);
-            const colors = getColors();
-            ctx.strokeStyle = `rgba(${colors.line}, ${
-              0.15 * (1 - distance / 120)
-            })`;
-            ctx.lineWidth = 0.5;
+
+            // Intensidad de línea aumenta cerca del mouse y con scroll
+            let lineOpacity = 0.12 * (1 - distance / connectionDistance);
+
+            // Aumentar opacidad si está cerca del mouse
+            if (distanceToMouse < mouseInfluence) {
+              lineOpacity *= 1 + (1 - distanceToMouse / mouseInfluence) * 2;
+            }
+
+            // Aumentar con velocidad de scroll
+            lineOpacity *= 1 + Math.abs(scrollVelocityRef.current) * 0.5;
+
+            // Limitar opacidad máxima
+            lineOpacity = Math.min(lineOpacity, 0.4);
+
+            ctx.strokeStyle = `rgba(${particle.color}, ${lineOpacity})`;
+            ctx.lineWidth = 1;
             ctx.stroke();
           }
         });
+      });
+
+      // Draw particles
+      particles.forEach((particle) => {
+        // Calcular distancia al mouse
+        const dxMouse = mouseRef.current.x - particle.x;
+        const dyMouse = mouseRef.current.y - particle.y;
+        const distanceToMouse = Math.sqrt(
+          dxMouse * dxMouse + dyMouse * dyMouse
+        );
+
+        let particleSize = particle.size;
+        let particleOpacity = particle.opacity;
+
+        // Aumentar tamaño y opacidad cerca del mouse
+        if (distanceToMouse < mouseInfluence) {
+          const influence = 1 - distanceToMouse / mouseInfluence;
+          particleSize *= 1 + influence * 0.8;
+          particleOpacity *= 1 + influence * 0.6;
+        }
+
+        // Efecto de brillo
+        const gradient = ctx.createRadialGradient(
+          particle.x,
+          particle.y,
+          0,
+          particle.x,
+          particle.y,
+          particleSize * 2
+        );
+        gradient.addColorStop(0, `rgba(${particle.color}, ${particleOpacity})`);
+        gradient.addColorStop(
+          0.5,
+          `rgba(${particle.color}, ${particleOpacity * 0.5})`
+        );
+        gradient.addColorStop(1, `rgba(${particle.color}, 0)`);
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particleSize * 2, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        // Núcleo sólido
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particleSize, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${particle.color}, ${particleOpacity * 1.2})`;
+        ctx.fill();
       });
     };
 
     const updateParticles = () => {
       particles.forEach((particle) => {
+        // Aplicar velocidad base
         particle.x += particle.vx;
         particle.y += particle.vy;
 
-        // Wrap around edges
-        if (particle.x < 0) particle.x = canvas.offsetWidth;
-        if (particle.x > canvas.offsetWidth) particle.x = 0;
-        if (particle.y < 0) particle.y = canvas.offsetHeight;
-        if (particle.y > canvas.offsetHeight) particle.y = 0;
+        // Aplicar influencia del mouse (repulsión suave)
+        const dxMouse = mouseRef.current.x - particle.x;
+        const dyMouse = mouseRef.current.y - particle.y;
+        const distanceToMouse = Math.sqrt(
+          dxMouse * dxMouse + dyMouse * dyMouse
+        );
+
+        if (distanceToMouse < 150 && distanceToMouse > 0) {
+          const force = (150 - distanceToMouse) / 150;
+          particle.x -= (dxMouse / distanceToMouse) * force * 0.5;
+          particle.y -= (dyMouse / distanceToMouse) * force * 0.5;
+        }
+
+        // Aplicar influencia del scroll (empujar partículas)
+        particle.y += scrollVelocityRef.current * 2;
+
+        // Wrap around edges con suavidad
+        if (particle.x < -10) particle.x = canvas.offsetWidth + 10;
+        if (particle.x > canvas.offsetWidth + 10) particle.x = -10;
+        if (particle.y < -10) particle.y = canvas.offsetHeight + 10;
+        if (particle.y > canvas.offsetHeight + 10) particle.y = -10;
       });
+
+      // Reducir velocidad de scroll gradualmente
+      scrollVelocityRef.current *= 0.95;
     };
 
     const animate = () => {
+      time++;
       updateParticles();
       drawParticles();
       animationId = requestAnimationFrame(animate);
+    };
+
+    // Mouse movement handler
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+    };
+
+    // Scroll handler
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      scrollVelocityRef.current =
+        (currentScroll - lastScrollRef.current) * 0.01;
+      lastScrollRef.current = currentScroll;
     };
 
     // Check for reduced motion preference
@@ -181,10 +284,14 @@ export function ParticleField({
       resize();
       createParticles();
     });
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [variant, density, speed]);
 
@@ -192,7 +299,7 @@ export function ParticleField({
     <canvas
       ref={canvasRef}
       className="pointer-events-none absolute inset-0 h-full w-full"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.7 }}
     />
   );
 }

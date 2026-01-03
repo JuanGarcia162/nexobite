@@ -13,6 +13,7 @@ import {
 import { AnimatedSection } from "@/components/animated-section";
 import { ParticleField } from "@/components/particle-field";
 import { useEffect, useRef, useState } from "react";
+import { Container } from "@/components/container";
 
 const packages = [
   {
@@ -111,9 +112,12 @@ export function PackagesSection() {
   }, []);
 
   return (
-    <section id="packages" className="relative py-24 sm:py-32 overflow-hidden">
+    <section
+      id="packages"
+      className="relative py-24 sm:py-32 overflow-hidden border-b border-border/50"
+    >
       <ParticleField variant="mixed" density="high" speed="medium" />
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Container className="relative z-10">
         <AnimatedSection>
           <div className="mb-4 text-center text-sm font-medium uppercase tracking-wider bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             Paquetes Integrales
@@ -189,12 +193,8 @@ export function PackagesSection() {
                     </CardContent>
                     <CardFooter>
                       <Button
-                        className={`w-full transition-all duration-300 ${
-                          pkg.highlighted
-                            ? "bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-accent/50 border-0"
-                            : "hover:border-accent hover:text-accent"
-                        }`}
-                        variant={pkg.highlighted ? "default" : "outline"}
+                        className="w-full"
+                        variant={pkg.highlighted ? "gradient" : "outline"}
                         asChild
                       >
                         <a
@@ -281,12 +281,8 @@ export function PackagesSection() {
                 </CardContent>
                 <CardFooter>
                   <Button
-                    className={`w-full transition-all duration-300 ${
-                      pkg.highlighted
-                        ? "bg-gradient-to-r from-primary to-accent"
-                        : "bg-primary"
-                    } text-white hover:bg-accent hover:shadow-lg hover:shadow-accent/50 border-0`}
-                    variant={pkg.highlighted ? "default" : "outline"}
+                    className="w-full"
+                    variant={pkg.highlighted ? "gradient" : "default"}
                     asChild
                   >
                     <a
@@ -302,7 +298,7 @@ export function PackagesSection() {
             </AnimatedSection>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

@@ -25,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NEXOBITE",
+  title: "NexoBite - Soluciones Tecnológicas para PYMES",
   description:
     "Chatbots inteligentes con IA, desarrollo web, gestión de redes sociales, fotografía y video. Soluciones tecnológicas para pequeñas y medianas empresas en Colombia.",
   generator: "v0.app",
