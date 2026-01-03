@@ -27,8 +27,6 @@ export function ParticleField({
 }: ParticleFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
-  const scrollVelocityRef = useRef(0);
-  const lastScrollRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -144,16 +142,13 @@ export function ParticleField({
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(other.x, other.y);
 
-            // Intensidad de línea aumenta cerca del mouse y con scroll
+            // Intensidad de línea aumenta cerca del mouse
             let lineOpacity = 0.12 * (1 - distance / connectionDistance);
 
             // Aumentar opacidad si está cerca del mouse
             if (distanceToMouse < mouseInfluence) {
               lineOpacity *= 1 + (1 - distanceToMouse / mouseInfluence) * 2;
             }
-
-            // Aumentar con velocidad de scroll
-            lineOpacity *= 1 + Math.abs(scrollVelocityRef.current) * 0.5;
 
             // Limitar opacidad máxima
             lineOpacity = Math.min(lineOpacity, 0.4);
@@ -232,18 +227,12 @@ export function ParticleField({
           particle.y -= (dyMouse / distanceToMouse) * force * 0.5;
         }
 
-        // Aplicar influencia del scroll (empujar partículas)
-        particle.y += scrollVelocityRef.current * 2;
-
         // Wrap around edges con suavidad
         if (particle.x < -10) particle.x = canvas.offsetWidth + 10;
         if (particle.x > canvas.offsetWidth + 10) particle.x = -10;
         if (particle.y < -10) particle.y = canvas.offsetHeight + 10;
         if (particle.y > canvas.offsetHeight + 10) particle.y = -10;
       });
-
-      // Reducir velocidad de scroll gradualmente
-      scrollVelocityRef.current *= 0.95;
     };
 
     const animate = () => {
@@ -263,12 +252,6 @@ export function ParticleField({
     };
 
     // Scroll handler
-    const handleScroll = () => {
-      const currentScroll = window.scrollY;
-      scrollVelocityRef.current =
-        (currentScroll - lastScrollRef.current) * 0.01;
-      lastScrollRef.current = currentScroll;
-    };
 
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia(
@@ -285,13 +268,11 @@ export function ParticleField({
       createParticles();
     });
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("scroll", handleScroll);
     };
   }, [variant, density, speed]);
 

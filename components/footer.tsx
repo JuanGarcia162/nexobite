@@ -27,19 +27,21 @@ export function Footer() {
               href="https://instagram.com/nexobite"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground transition-all hover:bg-gradient-to-br hover:from-primary hover:to-accent hover:text-white hover:scale-110"
+              className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-accent/50"
               aria-label="Instagram"
             >
-              <Instagram className="h-5 w-5" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-accent opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-50" />
+              <Instagram className="relative z-10 h-6 w-6 text-white" />
             </a>
             <a
               href="https://wa.me/+573116839099"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground transition-all hover:bg-gradient-to-br hover:from-primary hover:to-accent hover:text-white hover:scale-110"
+              className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-accent/50"
               aria-label="WhatsApp"
             >
-              <MessageCircle className="h-5 w-5" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-accent opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-50" />
+              <MessageCircle className="relative z-10 h-6 w-6 text-white" />
             </a>
           </div>
         </div>

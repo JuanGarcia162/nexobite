@@ -235,9 +235,7 @@ export function MiniPlansSection() {
 
         {/* Category buttons */}
         <div className="mb-8">
-          {" "}
-          <div className="flex gap-3 overflow-auto scrollbar-hide py-2 justify-center">
-            {" "}
+          <div className="flex gap-3 overflow-x-auto scrollbar-hide py-2 md:justify-center">
             {categories.map((cat) => (
               <button
                 key={cat.id}
