@@ -1,6 +1,6 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,54 +17,56 @@ import { Container } from "@/components/container";
 
 const packages = [
   {
-    name: "Primera Huella Digital",
+    name: "Lanzamiento Digital",
     description:
-      "Para emprendedores que están empezando y necesitan presencia básica.",
-    price: "$747.000",
-    priceNote: "Ahorro de $705.000",
+      "Para negocios que arrancan de cero y necesitan presencia básica.",
+    price: "$785.575",
+    priceNote: "Ahorro de $261.858 (25%)",
     features: [
-      "Landing Page profesional (1 página)",
-      "10 fotos de producto profesionales",
-      "15 diseños para redes sociales",
-      "Setup básico Instagram Business",
-      "Link en bio personalizado",
+      "Landing Page Estándar (1 página)",
+      "Sesión de fotos Esencial (10 fotos)",
+      "10 posts diseñados para redes",
+      "1 Reel/TikTok de obsequio 🎁",
+      "Dominio + Hosting por 1 año",
+      "Formulario de contacto",
       "Capacitación de 2 horas",
       "Entrega en 2-3 semanas",
     ],
     highlighted: false,
   },
   {
-    name: "Despegue Digital",
-    description: "Para negocios pequeños que quieren profesionalizarse.",
-    price: "$1.697.000",
-    priceNote: "Ahorro de $705.000",
+    name: "Presencia Completa",
+    description: "Todo lo que necesitas: web + redes + automatización.",
+    price: "$2.436.980",
+    priceNote: "Ahorro de $1.312.220 (35%)",
     features: [
-      "Web Portafolio completa (5 páginas)",
-      "ChatBot WhatsApp Starter + 1 mes",
-      "Sesión fotográfica (15 fotos)",
-      "20 diseños para redes sociales",
-      "3 videos Reels/TikTok",
-      "Dominio .com + Hosting 1 año",
-      "Capacitación de 4 horas",
-      "Entrega en 3-4 semanas",
+      "Web Portafolio Profesional (3-5 páginas)",
+      "ChatBot Business (setup + 3 meses)",
+      "Community Management Growth (1 mes)",
+      "Sesión de fotos Profesional (25 fotos)",
+      "Pack Videos Creador (6 videos)",
+      "Dominio + Hosting premium por 1 año",
+      "Calendario editorial incluido",
+      "Capacitación completa",
+      "Entrega en 4-6 semanas",
     ],
     highlighted: true,
   },
   {
-    name: "Presencia Completa",
-    description: "Todo lo que necesitas: web + redes + automatización.",
-    price: "$3.747.000",
-    priceNote: "Ahorro de $1.609.000",
+    name: "Transformación Total",
+    description: "Todo incluido para máximo impacto y escalamiento.",
+    price: "$5.174.400",
+    priceNote: "Ahorro de $4.233.600 (45%)",
     features: [
-      "Web Profesional (hasta 8 páginas)",
-      "ChatBot Business + 3 meses",
-      "Community Management (1 mes)",
-      "Sesión fotográfica (25 fotos)",
-      "6 videos Reels/TikTok",
-      "Dominio + Hosting por 1 año",
-      "Calendario editorial primer mes",
-      "Capacitación completa (6 horas)",
-      "Entrega en 4-6 semanas",
+      "Tienda Online Estándar (hasta 100 productos)",
+      "ChatBot Enterprise (setup + 3 meses)",
+      "Community Management Scale (3 meses)",
+      "Sesión de fotos Catálogo (50 fotos)",
+      "Pack Videos Viral (12 videos)",
+      "Dominio + Hosting premium por 1 año",
+      "Reportes y BI completo",
+      "Soporte prioritario",
+      "Entrega en 6-8 semanas",
     ],
     highlighted: false,
   },
@@ -77,7 +79,7 @@ export function PackagesSection() {
   useEffect(() => {
     // Scroll inicial al plan más popular (segundo elemento = index 4 en el array triplicado)
     if (carouselRef.current) {
-      const popularIndex = 4; // Segundo set, segundo elemento (Despegue Digital)
+      const popularIndex = 4; // Segundo set, segundo elemento (Presencia Completa)
       const cardWidth = carouselRef.current.scrollWidth / 9; // 3 paquetes x 3 repeticiones
       carouselRef.current.scrollLeft =
         cardWidth * popularIndex - window.innerWidth * 0.075;
@@ -124,7 +126,7 @@ export function PackagesSection() {
           </div>
           <h2 className="mb-4 text-center text-3xl font-bold text-foreground sm:text-4xl">
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Ahorra hasta 30%
+              Ahorra hasta 45%
             </span>{" "}
             combinando servicios
           </h2>
@@ -136,6 +138,40 @@ export function PackagesSection() {
 
         {/* Mobile Carousel */}
         <div className="lg:hidden relative pt-4">
+          {/* Navigation Arrows */}
+          <button
+            onClick={() => {
+              if (carouselRef.current) {
+                const cardWidth = carouselRef.current.scrollWidth / 9;
+                const currentScroll = carouselRef.current.scrollLeft;
+                carouselRef.current.scrollTo({
+                  left: currentScroll - cardWidth,
+                  behavior: "smooth",
+                });
+              }
+            }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-card/80 backdrop-blur-sm border border-border/50 rounded-full p-2 shadow-lg hover:bg-card transition-all"
+            aria-label="Anterior"
+          >
+            <ChevronLeft className="h-6 w-6 text-foreground" />
+          </button>
+          <button
+            onClick={() => {
+              if (carouselRef.current) {
+                const cardWidth = carouselRef.current.scrollWidth / 9;
+                const currentScroll = carouselRef.current.scrollLeft;
+                carouselRef.current.scrollTo({
+                  left: currentScroll + cardWidth,
+                  behavior: "smooth",
+                });
+              }
+            }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-card/80 backdrop-blur-sm border border-border/50 rounded-full p-2 shadow-lg hover:bg-card transition-all"
+            aria-label="Siguiente"
+          >
+            <ChevronRight className="h-6 w-6 text-foreground" />
+          </button>
+
           <div
             ref={carouselRef}
             className="overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8"

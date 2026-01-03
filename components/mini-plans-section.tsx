@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { Check } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,8 +23,8 @@ const categories = [
     plans: [
       {
         name: "STARTER",
-        price: "$747.000",
-        priceNote: "$147.000/mes",
+        price: "$522.900",
+        priceNote: "$102.900/mes",
         includes: [
           "3 flujos conversacionales",
           "Integración WhatsApp",
@@ -34,8 +34,8 @@ const categories = [
       },
       {
         name: "BUSINESS",
-        price: "$1.497.000",
-        priceNote: "$247.000/mes",
+        price: "$1.047.900",
+        priceNote: "$172.900/mes",
         includes: [
           "6 flujos",
           "WhatsApp + Web",
@@ -46,8 +46,8 @@ const categories = [
       },
       {
         name: "ENTERPRISE",
-        price: "$2.497.000",
-        priceNote: "$397.000/mes",
+        price: "$1.747.900",
+        priceNote: "$277.900/mes",
         includes: [
           "Flujos ilimitados",
           "Multi-canal",
@@ -61,27 +61,35 @@ const categories = [
   {
     id: "web",
     title: "Desarrollo Web",
-    description: "Sitios, tiendas y blogs con CMS y SEO.",
+    description: "Sitios profesionales optimizados para PyMEs.",
     plans: [
       {
         name: "BÁSICO",
-        price: "$497.000",
-        priceNote: "Landing",
-        includes: ["1 página", "Formulario", "Animaciones básicas"],
+        price: "$347.900",
+        priceNote: "Landing / Vitrina",
+        includes: [
+          "1 página 4-5 secciones",
+          "Dominio + Hosting 1 año",
+          "WhatsApp directo",
+        ],
         highlighted: false,
       },
       {
-        name: "ESTÁNDAR",
-        price: "$747.000",
-        priceNote: "Portafolio",
-        includes: ["CMS editable", "SEO básico", "Galería de proyectos"],
+        name: "PROFESIONAL",
+        price: "$522.900",
+        priceNote: "Web Corporativa",
+        includes: [
+          "3-5 páginas",
+          "Dominio + Hosting 1 año",
+          "Galería portafolio",
+        ],
         highlighted: true,
       },
       {
-        name: "PREMIUM",
-        price: "$1.247.000",
-        priceNote: "Blog / Tienda pequeña",
-        includes: ["Multi-idioma opcional", "SEO avanzado", "CMS completo"],
+        name: "EMPRESARIAL",
+        price: "$872.900",
+        priceNote: "Alto impacto",
+        includes: ["6-10 páginas", "Dominio + Hosting 1 año", "SEO avanzado"],
         highlighted: false,
       },
     ],
@@ -93,21 +101,21 @@ const categories = [
     plans: [
       {
         name: "STARTER",
-        price: "$497.000/mes",
+        price: "$347.900/mes",
         priceNote: "Presencia básica",
         includes: ["1 plataforma", "8 posts", "8 stories"],
         highlighted: false,
       },
       {
         name: "GROWTH",
-        price: "$827.000/mes",
+        price: "$578.900/mes",
         priceNote: "Crecimiento",
         includes: ["2 plataformas", "12 posts", "4 reels"],
         highlighted: true,
       },
       {
         name: "SCALE",
-        price: "$1.377.000/mes",
+        price: "$963.900/mes",
         priceNote: "Estrategia completa",
         includes: ["3 plataformas", "20 posts", "Ads básicos"],
         highlighted: false,
@@ -121,21 +129,21 @@ const categories = [
     plans: [
       {
         name: "ESENCIAL",
-        price: "$247.000",
+        price: "$172.900",
         priceNote: "Hasta 5 productos",
         includes: ["10 fotos web", "Edición color + luz"],
         highlighted: false,
       },
       {
         name: "PROFESIONAL",
-        price: "$497.000",
+        price: "$347.900",
         priceNote: "Hasta 12 productos",
         includes: ["25 fotos", "Retoque básico"],
         highlighted: true,
       },
       {
         name: "CATÁLOGO",
-        price: "$827.000",
+        price: "$578.900",
         priceNote: "Hasta 25 productos",
         includes: ["50 fotos", "RAW + alta resolución"],
         highlighted: false,
@@ -149,21 +157,21 @@ const categories = [
     plans: [
       {
         name: "BÁSICO",
-        price: "$247.000",
+        price: "$172.900",
         priceNote: "3 videos",
         includes: ["Edición básica", "Subtítulos"],
         highlighted: false,
       },
       {
         name: "CREADOR",
-        price: "$547.000",
+        price: "$382.900",
         priceNote: "6 videos",
         includes: ["Edición dinámica", "Música stock"],
         highlighted: true,
       },
       {
         name: "VIRAL",
-        price: "$1.047.000",
+        price: "$732.900",
         priceNote: "12 videos",
         includes: ["Guión incluido", "Edición premium"],
         highlighted: false,
@@ -212,7 +220,7 @@ export function MiniPlansSection() {
   return (
     <section
       id="mini-plans"
-      className="relative py-24 border-b border-border/50 overflow-hidden"
+      className="relative py-24 border-b border-border/50"
     >
       <ParticleField variant="mixed" density="medium" speed="medium" />
       <Container className="relative z-10">
@@ -234,13 +242,17 @@ export function MiniPlansSection() {
         </AnimatedSection>
 
         {/* Category buttons */}
-        <div className="mb-8">
-          <div className="flex gap-3 overflow-x-auto scrollbar-hide py-2 md:justify-center">
+        <div className="mb-8 relative">
+          {/* Gradientes indicadores en móvil */}
+          <div className="md:hidden absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent pointer-events-none z-10" />
+          <div className="md:hidden absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
+
+          <div className="flex gap-3 overflow-x-auto scrollbar-hide py-2 md:justify-center snap-x snap-proximity">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelected(cat.id)}
-                className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
+                className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 snap-center ${
                   selected === cat.id
                     ? "bg-gradient-to-r from-primary to-accent text-white shadow-md"
                     : "bg-card/40 text-muted-foreground hover:bg-card/60"
@@ -249,6 +261,20 @@ export function MiniPlansSection() {
               >
                 {cat.title}
               </button>
+            ))}
+          </div>
+
+          {/* Indicador de scroll en móvil */}
+          <div className="md:hidden flex justify-center gap-1.5 mt-3">
+            {categories.map((cat, index) => (
+              <div
+                key={cat.id}
+                className={`h-1 rounded-full transition-all duration-300 ${
+                  selected === cat.id
+                    ? "w-6 bg-gradient-to-r from-primary to-accent"
+                    : "w-1 bg-muted"
+                }`}
+              />
             ))}
           </div>
         </div>
@@ -270,6 +296,40 @@ export function MiniPlansSection() {
 
                 {/* Mobile slider */}
                 <div className="lg:hidden relative pt-2">
+                  {/* Navigation Arrows */}
+                  <button
+                    onClick={() => {
+                      if (carouselRef.current) {
+                        const cardWidth = carouselRef.current.scrollWidth / 9;
+                        const currentScroll = carouselRef.current.scrollLeft;
+                        carouselRef.current.scrollTo({
+                          left: currentScroll - cardWidth,
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-card/80 backdrop-blur-sm border border-border/50 rounded-full p-2 shadow-lg hover:bg-card transition-all"
+                    aria-label="Anterior"
+                  >
+                    <ChevronLeft className="h-6 w-6 text-foreground" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (carouselRef.current) {
+                        const cardWidth = carouselRef.current.scrollWidth / 9;
+                        const currentScroll = carouselRef.current.scrollLeft;
+                        carouselRef.current.scrollTo({
+                          left: currentScroll + cardWidth,
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-card/80 backdrop-blur-sm border border-border/50 rounded-full p-2 shadow-lg hover:bg-card transition-all"
+                    aria-label="Siguiente"
+                  >
+                    <ChevronRight className="h-6 w-6 text-foreground" />
+                  </button>
+
                   <div
                     ref={carouselRef}
                     className="overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8"
